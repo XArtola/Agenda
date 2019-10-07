@@ -31,31 +31,31 @@ function insertarDatos($nombre, $email){
 
     $nombre = str_replace(array('á', 'é', 'í', 'ó', 'ú'), array('a', 'e', 'i', 'o', 'u'), $nombre);
 
+    /*CASO 0: Nombre valido y email valido (evitart inyecciones)*/
+    if(preg_match("/^[a-z]+$/", $nombre) and filter_var($email, FILTER_VALIDATE_EMAIL ))
+        $_SESSION['Lista'][$nombre] = "$email";
     /*CASO 1: Nombre vacio*/
-
-    if(empty($nombre))
+    else if(empty($nombre))
         $GLOBALS['error'] .= "Error nombre vacio";
+
     /*CASO 2: Nombre valido (no está en la lista) y email valido*/
     else if(!array_key_exists($nombre, $_SESSION['Lista']) && !filter_var($email, FILTER_VALIDATE_EMAIL ))
-
         $GLOBALS['error'] = "Mail invalido";
 
-    /*CASO 3: */
-
-    else if(array_key_exists($nombre, $_SESSION['Lista']) and filter_var($email, FILTER_VALIDATE_EMAIL )) {
+    /*CASO 3:Nombre existente y email valido */
+    else if(array_key_exists($nombre, $_SESSION['Lista']) and filter_var($email, FILTER_VALIDATE_EMAIL ))
         $_SESSION['Lista'][$nombre] = "$email";
-    } 
-    /* CASO 4: */
+    
+    /* CASO 4: Nombre en la lista y email vacion*/
     else if(array_key_exists($nombre, $_SESSION['Lista']) and $email == "") 
         unset($_SESSION['Lista'][$nombre]);
+
+
 
     foreach ($_SESSION['Lista'] as $clave => $valor)
 
         $GLOBALS['listaContactos'] .="$clave $valor<br>";   
 } 
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -68,34 +68,36 @@ function insertarDatos($nombre, $email){
 
 <body>
 
-    <div>
+    <header><h1>Agenda de <?php echo "Xabier" ?><h1></header>
 
-        <form id="formulario" method="GET" action="AgendaSesion.php">
+        <div>
 
-            <h2>Información de contacto</h2>
-            <fieldset>
+            <form id="formulario" method="GET" action="AgendaSesion.php">
 
-                <legend>
-                    Información de contacto
-                </legend>
-                <label>Nombre: </label><input id="nombre" name="nombre" tyrp="text" placeholder="Introduce tu nombre" value="<?php echo mostrarNombre(); ?>"><br>
-                <label>Email: </label><input id="email" name="email" tyrp="email" placeholder="Introduce tu dirección de correo" value="<?php echo mostrarMail(); ?>">
-                <br>
-                <input type="submit" name="submit" value="Insertar datos">
-            </fieldset>
+                <h2>Información de contacto</h2>
+                <fieldset>
 
-        </form>
-    </div>
+                    <legend>
+                        Información de contacto
+                    </legend>
+                    <label>Nombre: </label><input id="nombre" name="nombre" tyrp="text" placeholder="Introduce tu nombre" value="<?php echo mostrarNombre(); ?>"><br>
+                    <label>Email: </label><input id="email" name="email" tyrp="email" placeholder="Introduce tu dirección de correo" value="<?php echo mostrarMail(); ?>">
+                    <br>
+                    <input type="submit" name="submit" value="Insertar datos">
+                </fieldset>
 
-    <aside>
-        <h2>Lista de contactos</h2>
-        <p id="listado">
-            <?php echo $GLOBALS['listaContactos']; ?>
-        </p>
+            </form>
+        </div>
 
-        <?php echo $GLOBALS['error']; ?>
-    </aside>
+        <aside>
+            <h2>Lista de contactos</h2>
+            <p id="listado">
+                <?php echo $GLOBALS['listaContactos']; ?>
+            </p>
 
-</body>
+            <?php echo $GLOBALS['error']; ?>
+        </aside>
 
-</html>
+    </body>
+
+    </html>
