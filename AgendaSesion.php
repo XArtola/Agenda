@@ -51,10 +51,11 @@ function insertarDatos($nombre, $email){
         unset($_SESSION['Lista'][$nombre]);
 
 
-
+    $GLOBALS['listaContactos'] .="<ul>";
     foreach ($_SESSION['Lista'] as $clave => $valor)
 
-        $GLOBALS['listaContactos'] .="$clave $valor<br>";   
+        $GLOBALS['listaContactos'] .="<li>$clave :: $valor</li>";
+    $GLOBALS['listaContactos'] .="</ul>";
 } 
 ?>
 
@@ -68,7 +69,7 @@ function insertarDatos($nombre, $email){
 
 <body>
 
-    <header><h1>Agenda de <?php echo "Xabier" ?><h1></header>
+    <header><h1>Agenda de <?php echo $_GET['usuario'] ?><h1></header>
 
         <div>
 
@@ -82,6 +83,7 @@ function insertarDatos($nombre, $email){
                     </legend>
                     <label>Nombre: </label><input id="nombre" name="nombre" tyrp="text" placeholder="Introduce tu nombre" value="<?php echo mostrarNombre(); ?>"><br>
                     <label>Email: </label><input id="email" name="email" tyrp="email" placeholder="Introduce tu dirección de correo" value="<?php echo mostrarMail(); ?>">
+                    <input type="hidden" name="usuario" value="<?php echo $_GET['usuario']; ?>" hidden>
                     <br>
                     <input type="submit" name="submit" value="Insertar datos">
                 </fieldset>
