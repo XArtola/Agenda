@@ -15,7 +15,7 @@ session_start();
 
     <div>
 
-        <form id="formulario" method="GET" action="Agenda.php">
+        <form id="formulario" method="GET" action="AgendaSesion.php">
 
             <h2>Información de contacto</h2>
             <fieldset>
@@ -23,10 +23,9 @@ session_start();
                 <legend>
                     Información de contacto
                 </legend>
-                <label>Nombre: </label><input id="nombre" name="nombre" tyrp="text" placeholder="Introduce tu nombre" value="<?php if (isset($_GET['nombre'])) 
-                echo $_GET['nombre'];?>
-            }?>">
-                <label>Email: </label><input id="email" name="email" tyrp="email" placeholder="Introduce tu dirección de correo" value="<?php echo $_GET['email'];?>>
+                <label>Nombre: </label><input id="nombre" name="nombre" tyrp="text" placeholder="Introduce tu nombre" value="<?php echo cogerNombre(); ?>"><br>
+                <label>Email: </label><input id="email" name="email" tyrp="email" placeholder="Introduce tu dirección de correo" value="<?php echo cogerMail(); ?>">
+                <br>
                 <input type="submit" name="submit" value="Insertar datos">
             </fieldset>
 
@@ -39,12 +38,31 @@ session_start();
 
             <?php
 
+           $lista = "";
+
+            function cogerNombre(){
+                if(empty($_GET['nombre']))
+                    return "";
+                else
+                    return $_GET['nombre'];
+            }
+
+            function cogerMail(){
+                if(empty($_GET['email']))
+                    return "";
+                else
+                    return $_GET['email'];
+            }
+
             if (isset($_GET['submit'])) {
                 insertarDatos($_GET['nombre'], $_GET['email']);
             }
 
             function insertarDatos($nombre, $email)
             {
+
+
+                $prueba = "1111";
                 if (empty($nombre) or empty($email))
 
                     echo "error";
@@ -59,14 +77,14 @@ session_start();
 
                     foreach ($_SESSION['Lista'] as $clave => $valor)
 
-                        echo "$clave $valor<br>";
+                        $lista += "$clave $valor<br>";
                 }
             }
 
             ?>
         </p>
     </aside>
-
+    
 
 
 </body>
