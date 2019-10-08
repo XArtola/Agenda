@@ -12,14 +12,14 @@
 	</header>
 
 	<section>
-		
-		<form method="GET" action="AgendaJSON.php">
-			<label>Introduce tu nombre</label>
-			<input type="text" name="usuario">
-
-			<input type="submit" value="Iniciar sesión">
-		</form>
-
+		<div id="contenedorIndex">
+			<form method="GET" action="AgendaJSON.php">
+				<label>Introduce tu nombre: </label>
+				<input type="text" name="usuario">
+				<br><br>
+				<input type="submit" value="Iniciar sesión">
+			</form>
+		</div>
 	</section>
 	<footer></footer>
 </body>

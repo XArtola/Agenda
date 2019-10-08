@@ -1,5 +1,107 @@
+body{
+
+	font-family: verdana;
+
+}
+
 header{
 
+	text-align: center;
+
+	background-color: grey;
+
+	border: 2px solid black;
+	border-radius: 20px;
+}
+
+#contenedorIndex{
+
+	width: 40%;
+
+	margin: 10% auto;
+	text-align: center;
+
+}
+
+input[type="submit"]{
+
+	padding: 3% 5%;
+
+	font-size: 20px;
+
+}
+
+#contenedor{
+
+	display: flex;
+	flex-direction: row;
+
+}
+
+#contenedor > form{
+
+	flex: 20%;
+
+	text-align: center;
+
+}
+
+#error{
+
+background: #e84315;
+
+font-size: 4em;
+
+font-weight: bold;
+
+display: block;
+
+border-radius: 30px;
+
+}
+
+aside{
+
+	flex: 60%;
+	text-align: center;
+
+}
+
+#contenedorContactos{
+
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+
+}
+
+.contacto{
+
+	flex: 30%;
+	background-color: #c2bdae;
+	text-align: center;
+	margin: 1%;
+}
+
+.contacto h3{
+
+font-weight: normal;
+
+}
+
+footer{
+
 text-align: center;
+
+font-size: 3em;
+
+background-color: #5cb85c;
+
+width: 80;
+
+margin: auto;
+
+border-radius: 30px;
+margin-top: 5%;
 
 }

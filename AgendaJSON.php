@@ -2,7 +2,7 @@
 
 $listaContactos = "";
 $error ="";
-
+$estado = "";
 /*Leer la información del archivo db.json*/
 $jsonString = file_get_contents("db.json");
 
@@ -47,11 +47,11 @@ function insertarDatos($nombre, $email){
     }
     /*CASO 1: Nombre vacio*/
     else if(empty($nombre))
-        $GLOBALS['error'] .= "Error nombre vacio";
+        $GLOBALS['error'] .= "Error: Nombre vacío";
 
     /*CASO 2: Nombre valido (no está en la lista) y email valido*/
     else if(!array_key_exists($nombre, $GLOBALS['array']) && !filter_var($email, FILTER_VALIDATE_EMAIL ))
-        $GLOBALS['error'] = "Mail invalido";
+        $GLOBALS['error'] = "Error: Mail invalido";
 
     /*CASO 3:Nombre existente y email valido */
     else if(array_key_exists($nombre, $GLOBALS['array']) and filter_var($email, FILTER_VALIDATE_EMAIL )){
@@ -67,13 +67,13 @@ function insertarDatos($nombre, $email){
 
 if(!is_null(gettype($GLOBALS['array']))){
     /*Crear lista de contactos*/
-    $GLOBALS['listaContactos'] .="<ul>";
+
 
     foreach ($GLOBALS['array'] as $clave => $valor)
 
-        $GLOBALS['listaContactos'] .="<li>$clave :: $valor</li>";
+        $GLOBALS['listaContactos'] .="<div class='contacto'><h3><b>Nombre:</b> $clave</h3><h3><b>Email:</b> $valor</h3></div>";
 
-    $GLOBALS['listaContactos'] .="</ul>";
+
 }
 
 if($cambios){
@@ -81,10 +81,10 @@ if($cambios){
     $jsondata = json_encode($GLOBALS['array']);
        //write json data into data.json file
     if(file_put_contents("db.json", $jsondata)) {
-        echo 'Datos guardados';
-    }
-    else 
-        echo "Error de guardado";
+     $GLOBALS['estado'] = 'Cambios guardados';
+ }
+ else 
+     $GLOBALS['estado'] = "Error de guardado";
 }
 } 
 
@@ -101,40 +101,49 @@ if($cambios){
 <head>
     <title>AGENDA</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/estilos.css">
 </head>
 
 <body>
 
     <header><h1>Agenda de <?php echo $_GET['usuario'] ?><h1></header>
 
-        <div>
+        <div id="contenedor">
 
             <form id="formulario" method="GET" action="AgendaJSON.php">
 
-                <h2>Información de contacto</h2>
+                <h2>Introducir nuevo contacto</h2>
                 <fieldset>
 
                     <legend>
                         Información de contacto
                     </legend>
-                    <label>Nombre: </label><input id="nombre" name="nombre" tyrp="text" placeholder="Introduce tu nombre" value="<?php echo mostrarNombre(); ?>"><br>
+                    <br>
+                    <label>Nombre: </label><input id="nombre" name="nombre" tyrp="text" placeholder="Introduce tu nombre" value="<?php echo mostrarNombre(); ?>"><br><br>
                     <label>Email: </label><input id="email" name="email" tyrp="email" placeholder="Introduce tu dirección de correo" value="<?php echo mostrarMail(); ?>">
                     <input type="hidden" name="usuario" value="<?php echo $_GET['usuario']; ?>" hidden>
-                    <br>
+                    <br><br>
                     <input type="submit" name="submit" value="Insertar datos">
+                    <div id="error"><?php echo $GLOBALS['error']; ?></div>
                 </fieldset>
 
             </form>
+
+
+            <aside>
+                <h2>Lista de contactos</h2>
+                <div id="contenedorContactos">
+                    <?php echo $GLOBALS['listaContactos']; ?>
+                </div>
+
+                
+            </aside>
         </div>
 
-        <aside>
-            <h2>Lista de contactos</h2>
-            <p id="listado">
-                <?php echo $GLOBALS['listaContactos']; ?>
-            </p>
+        <footer>
+            <?php echo $GLOBALS['estado']; ?>
 
-            <?php echo $GLOBALS['error']; ?>
-        </aside>
+        </footer>
 
     </body>
 
