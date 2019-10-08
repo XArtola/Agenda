@@ -30,13 +30,15 @@ function insertarDatos($nombre, $email){
     $nombre = strtolower($nombre);
 
     $nombre = str_replace(array('á', 'é', 'í', 'ó', 'ú'), array('a', 'e', 'i', 'o', 'u'), $nombre);
-
-    /*CASO 0: Nombre valido y email valido (evitart inyecciones)*/
-    if(preg_match("/^[a-z]+$/", $nombre) and filter_var($email, FILTER_VALIDATE_EMAIL ))
-        $_SESSION['Lista'][$nombre] = "$email";
     /*CASO 1: Nombre vacio*/
-    else if(empty($nombre))
+    if(empty($nombre))
         $GLOBALS['error'] .= "Error nombre vacio";
+    else if(!preg_match("/^[a-z]+$/", $nombre))
+        $GLOBALS['error'] .= "Error nombre incorrecto";
+    /*CASO 0: Nombre valido y email valido (evitart inyecciones)*/
+    else if(preg_match("/^[a-z]+$/", $nombre) and filter_var($email, FILTER_VALIDATE_EMAIL ))
+        $_SESSION['Lista'][$nombre] = "$email";
+    
 
     /*CASO 2: Nombre valido (no está en la lista) y email valido*/
     else if(!array_key_exists($nombre, $_SESSION['Lista']) && !filter_var($email, FILTER_VALIDATE_EMAIL ))
