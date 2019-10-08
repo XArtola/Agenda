@@ -4,6 +4,7 @@ $listaContactos = "";
 $error ="";
 $estado = "";
 $correoRepetido="";
+
 /*RECOGIDA DE DATOS DEL ARCHIVO JSON*/
 
 /*Leer la información del archivo db.json*/
@@ -14,6 +15,8 @@ if(!is_null($jsonString))
 $array = json_decode($jsonString, true);
 else
     $array = [];
+
+/*MUESTRA DEL VALOR ANTERIOR AL SUBMIT EN LOS CAMPOS*/
 
 /*Devuelve nombre si el valor del input no esta vacio*/
 function mostrarNombre(){
@@ -29,6 +32,8 @@ function mostrarMail(){
     else
         return $_GET['email'];
 }
+
+/*DEFINICIÓN DE FUNCIÓN QUE SE ENCARGARA DE GESTIÓN DEL ARRAY*/
 
 function insertarDatos($nombre, $email){
     /*Varible que refleja si el array ha sufrido algun cambio*/
@@ -82,13 +87,12 @@ function insertarDatos($nombre, $email){
 
             $GLOBALS['listaContactos'] .="<div class='contacto'><h3><b>Nombre:</b> $clave</h3><h3><b>Email:</b> $valor</h3></div>";
 
-
     }
+
     /*Si el array ha sufrido alguna modificación actualizar el archivo JSON*/
     if($cambios){
        //Convertir Array en JSON
         $jsondata = json_encode($GLOBALS['array']);
-       //write json data into data.json file
         if(file_put_contents("db.json", $jsondata)) {
          $GLOBALS['estado'] = 'Cambios guardados';
      }
@@ -97,7 +101,7 @@ function insertarDatos($nombre, $email){
  }
 }
 
-/*Llamar a la función cuando se hace click en submit*/
+/*LLAMADA A LA FUNCiÓN*/
 if (isset($_GET['submit'])) {
     insertarDatos($_GET['nombre'], $_GET['email']);
 } 
