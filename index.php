@@ -2,17 +2,18 @@
 <html>
 <head>
 	<title>Index</title>
+	<link rel="stylesheet" type="text/css" href="css/estilos.css">
 </head>
 <body>
 
 	<header>
-		Agenda
-
+		<h1>Agenda electrónica</h1>
+		<h2>Página de inicio</h2>
 	</header>
 
 	<section>
 		
-		<form method="GET" action="AgendaSesion.php">
+		<form method="GET" action="AgendaJSON.php">
 			<label>Introduce tu nombre</label>
 			<input type="text" name="usuario">
 
